@@ -1,11 +1,13 @@
-
 import Header from './Header';
+import InstanceTable from './InstanceTable';
 
 function App() {
   return (
     <div className="ui container">
-          <Header />
-      <h1>App</h1>
+      <Header />
+      <div className='ui hidden section divider'>
+        <InstanceTable/>
+      </div>
     </div>
   );
 }
