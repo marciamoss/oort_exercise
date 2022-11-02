@@ -1,80 +1,55 @@
 import _ from 'lodash'
 import React from 'react'
 import { Table } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { changeSort } from '../actions';
 
-function sortReducer(state, action) {
-  switch (action.type) {
-    case 'CHANGE_SORT':
-      if (state.column === action.column) {
-        return {
-          ...state,
-          data: state.data.slice().reverse(),
-          direction:
-            state.direction === 'ascending' ? 'descending' : 'ascending',
-        }
-      }
-
-      return {
-        column: action.column,
-        data: _.sortBy(state.data, [action.column]),
-        direction: 'ascending',
-      }
-    default:
-      throw new Error()
-  }
-}
-
-function TableLayout({tableData}) {
-  const [state, dispatch] = React.useReducer(sortReducer, {
-    column: null,
-    data: tableData,
-    direction: null,
-  })
-  const { column, data, direction } = state
+function TableLayout(props) {
   return (
     <Table sortable celled fixed>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell
-            sorted={column === 'id' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'id' })}
+            sorted={props.column === 'id' ? props.direction : null}
+            onClick={() => props.changeSort('id', props.data, props.direction)}
+
           >
             ID
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'name' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'name' })}
+            sorted={props.column === 'name' ? props.direction : null}
+            onClick={() => props.changeSort('name', props.data, props.direction)}
           >
             Name
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'state' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'state' })}
+            sorted={props.column === 'state' ? props.direction : null}
+            onClick={() => props.changeSort('state', props.data, props.direction)}
           >
             State
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'az' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'az' })}
+            sorted={props.column === 'az' ? props.direction : null}
+            onClick={() => props.changeSort('az', props.data, props.direction)}
           >
             az
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'publicIP' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'publicIP' })}
+            sorted={props.column === 'publicIP' ? props.direction : null}
+            onClick={() => props.changeSort('publicIP', props.data, props.direction)}
           >
             Public IP
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'privateIP' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'privateIP' })}
+            sorted={props.column === 'privateIP' ? props.direction : null}
+            onClick={() => props.changeSort('privateIP', props.data, props.direction)}
           >
             Private IP
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {data.map(({ id, name, state, az, publicIP, privateIP }, index) => (
+        {props.data.map(({ id, name, state, az, publicIP, privateIP }, index) => (
           <Table.Row key={index}>
             <Table.Cell>{id}</Table.Cell>
             <Table.Cell>{name}</Table.Cell>
@@ -89,4 +64,15 @@ function TableLayout({tableData}) {
   )
 }
 
-export default TableLayout
+const mapStateToProps = state => {
+  return {
+    column: state.sort.column ? state.sort.column : null,
+    data: state.sort.data ? state.sort.data : state.getEC2,
+    direction: state.sort.direction ? state.sort.direction : 'ascending',
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { changeSort }
+)(TableLayout);

@@ -1,4 +1,5 @@
-import { SIGN_IN, SIGN_OUT } from './types';
+import { SIGN_IN, SIGN_OUT, CHANGE_SORT } from './types';
+let ec2Instances = require("../components/ec2instance_fakedata.json");
 
 export const signIn = (userId, userName) => {
   return {
@@ -10,5 +11,23 @@ export const signIn = (userId, userName) => {
 export const signOut = () => {
   return {
     type: SIGN_OUT
+  };
+};
+
+export const getEC2s = () => {
+  /* const response = await (this is where the actual api call for
+                      getting ec2 instances would go);*/
+  const response = ec2Instances;
+  return { type: 'GET_EC2', payload: response };
+};
+
+export const changeSort = (column, data, direction) => {
+  return {
+    type: CHANGE_SORT,
+    payload: {
+      column: column,
+      data: data,
+      direction: direction,
+    }
   };
 };

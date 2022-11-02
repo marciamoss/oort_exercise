@@ -1,22 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TableLayout from './TableLayout';
+import { getEC2s } from '../actions';
+import TableLayout from './TableLayout'
 
-let ec2Instances = require("./ec2instance_fakedata.json");
+const InstanceTable = (props) => {
+  React.useEffect(() => {
+    props.getEC2s();
+  }, []);
 
-class InstanceTable extends React.Component {
-  render() {
-    return (
+  return (
     <div>
-      {this.props.isSignedIn ? 
+      {props.isSignedIn ?
         <div>
           <h2 className='ui header green'>Active EC2 Instances</h2>
-          <TableLayout tableData={ec2Instances}/>
+          <TableLayout/>
         </div>
         : <h1 className='ui header'>Need to sign in to see you ec2 instances</h1>}
     </div>
     );
-  }
 }
 
 const mapStateToProps = state => {
@@ -25,4 +26,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(InstanceTable);
+export default connect(mapStateToProps, { getEC2s })(InstanceTable);
