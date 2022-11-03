@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getEC2s } from '../actions';
 import TableLayout from './TableLayout';
 import Pagination from './Pagination/Pagination';
+import NotLoggedInMessage from './NotLoggedInMessage';
 
 const InstanceTable = (props) => {
   React.useEffect(() => {
@@ -17,7 +18,7 @@ const InstanceTable = (props) => {
           PAGE <Pagination/>
           <TableLayout/>
         </div>
-        : <h1 className='ui header'>Need to sign in to see you ec2 instances</h1>}
+        : <NotLoggedInMessage/>}
     </div>
     );
 }
