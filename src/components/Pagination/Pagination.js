@@ -13,7 +13,10 @@ const Pagination = (props) => {
     <div className="ui pagination menu pagination">
       {pageNumbers.map(number => {
           return (
-            <a key={number} onClick={() => props.pagination(props.ec2sPerPage, props.totalEC2s, number)} 
+            <a key={number} onClick={(e) => {
+              e.preventDefault();
+              return props.pagination(props.ec2sPerPage, props.totalEC2s, number)
+            }}
             href='!#' className={`item ${props.currentPage===number ? "active-page" : ""}`}>
                 {number}
             </a>
