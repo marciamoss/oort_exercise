@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getEC2s } from '../actions';
 import TableLayout from './TableLayout';
 import Pagination from './Pagination/Pagination';
 import NotLoggedInMessage from './NotLoggedInMessage';
 
-const InstanceTable = (props) => {
-  React.useEffect(() => {
-    props.getEC2s();
-  }, []);
+const InstanceTable = ({isSignedIn, getEC2s}) => {
+  useEffect(() => {
+    if(isSignedIn) {
+      getEC2s();
+    }
+  }, [isSignedIn, getEC2s]);
 
   return (
     <div>
-      {props.isSignedIn ?
+      {isSignedIn ?
         <div>
           <h2 className='ui header green'>Active EC2 Instances</h2>
           PAGE <Pagination/>
