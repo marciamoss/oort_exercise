@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, CHANGE_SORT } from './types';
+import { SIGN_IN, SIGN_OUT, CHANGE_SORT, PAGE_CLICKED } from './types';
 let ec2Instances = require("../components/ec2instance_fakedata.json");
 
 export const signIn = (userId, userName) => {
@@ -28,6 +28,17 @@ export const changeSort = (column, data, direction) => {
       column: column,
       data: data,
       direction: direction,
+    }
+  };
+};
+
+export const pagination = (ec2sPerPage, totalEC2s, currentPage) => {
+  return {
+    type: PAGE_CLICKED,
+    payload: {
+      ec2sPerPage,
+      totalEC2s,
+      currentPage
     }
   };
 };

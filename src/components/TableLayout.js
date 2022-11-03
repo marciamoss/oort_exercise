@@ -1,5 +1,4 @@
-import _ from 'lodash'
-import React from 'react'
+import React from 'react';
 import { Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { changeSort } from '../actions';
@@ -65,10 +64,12 @@ function TableLayout(props) {
 }
 
 const mapStateToProps = state => {
+  const indexOfLastBook = state.getPage.currentPage * state.getPage.ec2sPerPage;
+  const indexOfFirstBook = indexOfLastBook - state.getPage.ec2sPerPage;
   return {
     column: state.sort.column ? state.sort.column : null,
-    data: state.sort.data ? state.sort.data : state.getEC2,
-    direction: state.sort.direction ? state.sort.direction : 'ascending',
+    data: state.sort.data ? state.sort.data : state.getEC2?.slice(indexOfFirstBook, indexOfLastBook),
+    direction: state.sort.direction ? state.sort.direction : 'ascending'
   };
 };
 

@@ -1,4 +1,4 @@
-import { CHANGE_SORT } from '../actions/types';
+import { CHANGE_SORT, PAGE_CLICKED } from '../actions/types';
 import _ from 'lodash';
 
 const INTIAL_STATE = {
@@ -23,6 +23,9 @@ const sortReducer = (state=INTIAL_STATE, action) => {
         data: _.sortBy(action.payload.data, [action.payload.column]),
         direction: action.payload.direction === 'ascending' ? 'descending' : 'ascending',
       }
+      case PAGE_CLICKED:
+        return INTIAL_STATE;
+
       default:
         return state;
   }
